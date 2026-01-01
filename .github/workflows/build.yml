@@ -15,7 +15,7 @@ jobs:
   build:
     strategy:
       matrix:
-        version: [13, 14, 15]
+        version: [14, 15, 15-intel, 26]
         xcode-select: ["xcode", "clt"]
       fail-fast: false
 
