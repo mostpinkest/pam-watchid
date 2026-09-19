@@ -15,13 +15,13 @@ jobs:
   build:
     strategy:
       matrix:
-        version: [14, 15, 15-intel, 26]
+        version: [macos-15, macos-15-intel, macos-26, macos-26-intel, xcode-27]
         xcode-select: ["xcode", "clt"]
       fail-fast: false
 
-    name: Build (macos-${{ matrix.version }}${{ matrix.xcode-select == 'clt' && ', Command Line Tools' || '' }})
+    name: Build (${{ matrix.version }}${{ matrix.xcode-select == 'clt' && ', Command Line Tools' || '' }})
 
-    runs-on: macos-${{ matrix.version }}
+    runs-on: ${{ matrix.version }}
 
     permissions:
       id-token: write
