@@ -12,10 +12,15 @@ all:
 ifeq ($(shell [[ '$(shell xcode-select -p)' == '/Library/Developer/CommandLineTools' ]] && echo true),true)
 # Legacy build
 # For CLT due to poor support for building swift packages.
-# Swift packages do work in macOS Sonoma and later with the CLT, but are an order of magnitude slower than Xcode. 
+# Swift packages do work in macOS Sonoma and later with the CLT, but are an order of magnitude slower than Xcode.
+ifeq ($(shell [ "$(shell sw_vers -productVersion | cut -d. -f1)" -ge 27 ] && echo true),true)
+# x86_64 CLT builds are incompatible wth macOS 27 and later
+	swiftc Sources/pam-watchid/pam_watchid.swift -o $(LIBRARY_PREFIX).so -target arm64-$(TARGET) -emit-library
+else
 	swiftc Sources/pam-watchid/pam_watchid.swift -o $(LIBRARY_PREFIX)_x86_64.so -target x86_64-$(TARGET) -emit-library
 	swiftc Sources/pam-watchid/pam_watchid.swift -o $(LIBRARY_PREFIX)_arm64.so -target arm64-$(TARGET) -emit-library
 	lipo -create $(LIBRARY_PREFIX)_arm64.so $(LIBRARY_PREFIX)_x86_64.so -output $(LIBRARY_NAME)
+endif
 else
 # Swift Package Manager build
 	swift build -c release --arch x86_64 --arch arm64
