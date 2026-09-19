@@ -24,7 +24,7 @@ endif
 else
 # Swift Package Manager build
 	swift build -c release --arch x86_64 --arch arm64
-	mv $(shell swift build --show-bin-path -c release)/libpam-watchid.dylib $(LIBRARY_NAME)
+	mv $(shell swift build --show-bin-path -c release --arch x86_64 --arch arm64)/libpam-watchid.dylib $(LIBRARY_NAME)
 endif
 
 install: all
