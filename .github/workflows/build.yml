@@ -32,7 +32,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v7
-      
+
     - name: Switch to Xcode Command Line Tools
       if: ${{ matrix.xcode-select == 'clt' }}
       run: sudo xcode-select --switch /Library/Developer/CommandLineTools
